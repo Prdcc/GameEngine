@@ -39,7 +39,7 @@ public class MainGameLoop {
         };
         
         RawModel model = loader.loadToVAO(vertices, textureCoords, indices);
-        ModelTexture texture = new ModelTexture(loader.loadTexture("tbutton"));
+        ModelTexture texture = new ModelTexture(loader.loadTexture("goodmem"));
         TexturedModel texturedModel = new TexturedModel(model,texture);
         
         while(!Display.isCloseRequested()){
