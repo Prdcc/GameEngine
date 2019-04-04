@@ -40,7 +40,7 @@ public class Loader {
     public int loadTexture(String fileName){
         Texture texture = null;
         try {
-            texture = TextureLoader.getTexture("png", new FileInputStream("res/"+fileName+".png"));
+            texture = TextureLoader.getTexture("png", new FileInputStream("res/textures/"+fileName+".png"));
         } catch (IOException ex) {
             Logger.getLogger(Loader.class.getName()).log(Level.SEVERE, null, ex);
         }
