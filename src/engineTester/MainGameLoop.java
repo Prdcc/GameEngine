@@ -2,12 +2,12 @@ package engineTester;
 
 import entities.Camera;
 import entities.Entity;
+import entities.Light;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import models.RawModel;
@@ -27,29 +27,31 @@ public class MainGameLoop {
         configureLogger();
         DisplayManager.createDisplay();
         Loader loader = new Loader();
-        StaticShader shader = new StaticShader();
-        Renderer renderer = new Renderer(shader);
         
-        RawModel model = OBJLoader.loadObjModel("stall", loader);
-        ModelTexture texture = new ModelTexture(loader.loadTexture("stallTexture"));
+        RawModel model = OBJLoader.loadObjModel("dragon", loader);
+        ModelTexture texture = new ModelTexture(loader.loadTexture("orange"));
+        texture.setReflectivity(1);
+        texture.setShineDamper(2);
         TexturedModel texturedModel = new TexturedModel(model,texture);
         
-        Entity entity = new Entity(texturedModel, new Vector3f(0,0,-50),0,0,0,1);
+        Entity entity = new Entity(texturedModel, new Vector3f(0, -3f,-25),0,0,0,1);
+        Light light = new Light(new Vector3f(0,0,-20), new Vector3f(1,1,1));
         
         Camera camera = new Camera();
+        
+        MasterRenderer renderer = new MasterRenderer();
         
         while(!Display.isCloseRequested()){
             entity.increaseRotation(0, 1, 0);
             camera.move();
-            renderer.prepare();
-            shader.start();
-            shader.loadViewMatrix(camera);
-            renderer.render(entity,shader);
-            shader.stop();
+            
+            renderer.processEntity(entity);
+            
+            renderer.render(light, camera);
             DisplayManager.updateDisplay();            
         }
         
-        shader.cleanUp();
+        renderer.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();
     }
