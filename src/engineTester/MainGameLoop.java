@@ -6,6 +6,7 @@ import entities.Light;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
@@ -15,7 +16,7 @@ import models.TexturedModel;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.*;
-import shaders.StaticShader;
+import terrains.Terrain;
 import textures.ModelTexture;
 /**
  *
@@ -24,6 +25,7 @@ import textures.ModelTexture;
 public class MainGameLoop {
 
     public static void main(String[] args) {
+        Random rand = new Random();
         configureLogger();
         DisplayManager.createDisplay();
         Loader loader = new Loader();
@@ -34,18 +36,40 @@ public class MainGameLoop {
         texture.setShineDamper(2);
         TexturedModel texturedModel = new TexturedModel(model,texture);
         
-        Entity entity = new Entity(texturedModel, new Vector3f(0, -3f,-25),0,0,0,1);
+        Entity dragon = new Entity(texturedModel, new Vector3f(0, 0,-25),0,0,0,0.25f);
         Light light = new Light(new Vector3f(0,0,-20), new Vector3f(1,1,1));
+        
+        List<Entity> trees = new ArrayList<>();
+        RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
+        ModelTexture treeTexture = new ModelTexture(loader.loadTexture("tree"));
+        TexturedModel treeTexturedModel = new TexturedModel(treeModel, treeTexture);
+        for(int i = 0; i<100; i++){
+            float x = rand.nextFloat();
+            float z = rand.nextFloat();
+            trees.add(new Entity(treeTexturedModel, new Vector3f(x*800, 0,-z*800),0,0,0,4));
+        }
+        
+        List<Terrain> terrains = new ArrayList<>();
+        terrains.add(new Terrain(1,-1,loader,new ModelTexture(loader.loadTexture("grass"))));
+        terrains.add(new Terrain(0,-1,loader,new ModelTexture(loader.loadTexture("grass"))));
+        terrains.add(new Terrain(-1,-1,loader,new ModelTexture(loader.loadTexture("grass"))));
         
         Camera camera = new Camera();
         
         MasterRenderer renderer = new MasterRenderer();
         
         while(!Display.isCloseRequested()){
-            entity.increaseRotation(0, 1, 0);
             camera.move();
             
-            renderer.processEntity(entity);
+            for(Terrain terrain: terrains){
+                renderer.processTerrain(terrain);
+            }
+            
+            renderer.processEntity(dragon);
+            
+            for(Entity tree: trees){
+                renderer.processEntity(tree);
+            }
             
             renderer.render(light, camera);
             DisplayManager.updateDisplay();            
