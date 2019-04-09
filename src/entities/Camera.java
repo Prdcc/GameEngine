@@ -21,8 +21,9 @@ public class Camera {
     private static final float MOVEMENT_SPEED = 2f;
     private static final float ROTATION_SPEED = 0.5f;
     
-
-    
+    /**
+     *
+     */
     public void move(){
         if(Keyboard.isKeyDown(Keyboard.KEY_W)){
             position.z -= MOVEMENT_SPEED;
@@ -57,18 +58,34 @@ public class Camera {
         }
     }
     
+    /**
+     *
+     * @return
+     */
     public Vector3f getPosition() {
         return position;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getPitch() {
         return pitch;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getYaw() {
         return yaw;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getRoll() {
         return roll;
     }

@@ -1,0 +1,31 @@
+JavaDoc:
+    engineTester:
+        ☐ MainGameLoop
+    entities:
+        ☐ Camera
+        ☐ Entity
+        ☐ Light
+    models:
+        ✔ RawModel @done(19-04-09 22:54)
+        ✔ TextureModel @done(19-04-09 23:57)
+    renderEngine:
+        ✔ DisplayManager @done(19-04-09 22:39)
+        ☐ EntityRenderer
+        ✔ Loader @done(19-04-09 22:39)
+        ☐ MasterRenderer
+        ☐ OBJLoader
+        ☐ TerrainRenderer
+    shaders:
+        ☐ ShaderProgram
+        ☐ StaticShader
+        ☐ TerrainShader
+    terrains:
+        ☐ Terrain
+    textures:
+        ✔ ModelTexture @done(19-04-09 23:50)
+    toolbox:
+        ☐ Maths
+
+    
+    
+    

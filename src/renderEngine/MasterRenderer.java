@@ -29,6 +29,9 @@ public class MasterRenderer {
     private Map<TexturedModel,List<Entity>> entities = new HashMap<>();
     private List<Terrain> terrains = new ArrayList<>();
 
+    /**
+     *
+     */
     public MasterRenderer() {
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
@@ -37,6 +40,11 @@ public class MasterRenderer {
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
     }
     
+    /**
+     *
+     * @param sun
+     * @param camera
+     */
     public void render(Light sun, Camera camera){
         prepare();
         
@@ -56,11 +64,18 @@ public class MasterRenderer {
         entities.clear();
     }
     
+    /**
+     *
+     * @param terrain
+     */
     public void processTerrain(Terrain terrain){
         terrains.add(terrain);
     }
     
-    
+    /**
+     *
+     * @param entity
+     */
     public void processEntity(Entity entity){
         TexturedModel entityModel = entity.getModel();
         List<Entity> batch = entities.get(entityModel);
@@ -74,15 +89,21 @@ public class MasterRenderer {
         }
     }
     
+    /**
+     *
+     */
     public void cleanUp(){
         shader.cleanUp();
         terrainShader.cleanUp();
     }
     
+    /**
+     *
+     */
     public void prepare(){
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT|GL11.GL_DEPTH_BUFFER_BIT);
-        GL11.glClearColor(0.5f, 0, 0.5f, 1);      //red background
+        GL11.glClearColor(0f, 0.75f, 1f, 1);      //red background
     }
     
     private void createProjectionMatrix(){

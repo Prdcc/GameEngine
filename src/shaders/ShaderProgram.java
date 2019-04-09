@@ -19,6 +19,11 @@ public abstract class ShaderProgram {
     
     private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);    //used to load 4x4 matrices
     
+    /**
+     *
+     * @param vertexFile
+     * @param fragmentFile
+     */
     public ShaderProgram(String vertexFile, String fragmentFile){
         vertexShaderID = loadShader(vertexFile, GL20.GL_VERTEX_SHADER);
         fragmentShaderID = loadShader(fragmentFile, GL20.GL_FRAGMENT_SHADER);
@@ -32,20 +37,37 @@ public abstract class ShaderProgram {
         getAllUniformLocations();
     }
     
+    /**
+     *
+     * @param uniformName
+     * @return
+     */
     protected int getUniformLocation(String uniformName){
         return GL20.glGetUniformLocation(programID, uniformName);
     }
     
+    /**
+     *
+     */
     protected abstract void getAllUniformLocations();
     
+    /**
+     *
+     */
     public void start(){
         GL20.glUseProgram(programID);
     }
     
+    /**
+     *
+     */
     public void stop(){
         GL20.glUseProgram(0);
     }
     
+    /**
+     *
+     */
     public void cleanUp(){
         stop();
         GL20.glDetachShader(programID, vertexShaderID);
@@ -55,25 +77,53 @@ public abstract class ShaderProgram {
         GL20.glDeleteProgram(programID);
     }
             
+    /**
+     *
+     */
     protected abstract void bindAttributes();
     
+    /**
+     *
+     * @param attribute
+     * @param variableName
+     */
     protected void bindAttribute(int attribute, String variableName){
         GL20.glBindAttribLocation(programID, attribute, variableName);
     }
     
+    /**
+     *
+     * @param location
+     * @param value
+     */
     protected void loadFloat(int location, float value){
         GL20.glUniform1f(location, value);
     }
     
+    /**
+     *
+     * @param location
+     * @param vector
+     */
     protected void loadVector(int location, Vector3f vector){
         GL20.glUniform3f(location, vector.x, vector.y, vector.z);
     }
     
+    /**
+     *
+     * @param location
+     * @param value
+     */
     protected void loadBoolean(int location, boolean value){
         float toLoad = value? 1:0;
         GL20.glUniform1f(location, toLoad);
     }
     
+    /**
+     *
+     * @param location
+     * @param matrix
+     */
     protected void loadMatrix(int location, Matrix4f matrix){
         matrix.store(matrixBuffer);
         matrixBuffer.flip();

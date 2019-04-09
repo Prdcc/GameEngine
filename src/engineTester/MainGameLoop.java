@@ -4,11 +4,9 @@ import entities.Camera;
 import entities.Entity;
 import entities.Light;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.FileHandler;
-import java.util.logging.Handler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import models.RawModel;
@@ -24,6 +22,10 @@ import textures.ModelTexture;
  */
 public class MainGameLoop {
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         Random rand = new Random();
         configureLogger();
@@ -82,15 +84,12 @@ public class MainGameLoop {
     
     private static void configureLogger(){
         Logger logger = Logger.getLogger("");
-        for(Handler handler: logger.getHandlers()){
-            logger.removeHandler(handler);
-        }
-        FileHandler fh = null;  
-
+        FileHandler fh;  
         try {  
             // This block configure the logger with handler and formatter  
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH mm ss");
-            fh = new FileHandler("logs/"+dtf.format(LocalDateTime.now())+".log");  
+            int MAX_LOG_SIZE = 2048;
+            fh = new FileHandler("logs/log", MAX_LOG_SIZE, 3 , true);  
             logger.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();  
             fh.setFormatter(formatter);  

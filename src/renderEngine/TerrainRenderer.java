@@ -23,6 +23,11 @@ public class TerrainRenderer {
     
     private TerrainShader shader;
     
+    /**
+     *
+     * @param shader
+     * @param projectionMatrix
+     */
     public TerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix){
         this.shader = shader;
         shader.start();
@@ -30,6 +35,10 @@ public class TerrainRenderer {
         shader.stop();
     }
     
+    /**
+     *
+     * @param terrains
+     */
     public void render(List<Terrain> terrains){
         for(Terrain terrain: terrains){
             prepareTerrain(terrain);

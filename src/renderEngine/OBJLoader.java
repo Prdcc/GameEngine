@@ -18,8 +18,12 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class OBJLoader {
     
-    
-    
+    /**
+     *
+     * @param fileName
+     * @param loader
+     * @return
+     */
     public static RawModel loadObjModel(String fileName, Loader loader){
         FileReader fr = null;
         try {
